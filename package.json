@@ -16,5 +16,9 @@
     "url": "https://github.com/JustBro/ulbi-learn/issues"
   },
   "homepage": "https://github.com/JustBro/ulbi-learn#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  }
 }
