@@ -7,6 +7,7 @@
         "jsx": "react",
         "allowJs": true,
         "moduleResolution": "node",
+        "baseUrl": ".",
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
