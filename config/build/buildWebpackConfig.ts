@@ -3,11 +3,13 @@ import { BuildOptions } from "./types";
 import { buildLoaders } from "./buildLoaders";
 import { buildPlugins } from "./buildPlagins";
 import { buildResolvers } from "./buildResolvers";
+import { buildDevServer } from "./buildDevServer";
 
 const buildWebpackConfig = ({
   mode,
   paths,
-//   isDev,
+  isDev,
+  port,
 }: BuildOptions): webpack.Configuration => {
   const { entry, build, html, tsConfigPath } = paths;
 
@@ -42,6 +44,11 @@ const buildWebpackConfig = ({
     // resolve - это конфигурация, которая будет использоваться для разрешения расширений файлов
     // при импорте файлов, webpack будет искать файлы с этими расширениями и нам не нужно указывать расширения вручную
     resolve: buildResolvers(),
+    // devtool - это конфигурация, которая будет использоваться для отладки кода
+    // inline-source-map - это тип отладки, который будет использоваться для отладки кода
+    // он будет использоваться для того чтобы мы могли видеть исходный код в браузере
+    devtool: isDev ? "inline-source-map" : undefined,
+    devServer: isDev ? buildDevServer(port) : undefined,
   };
 };
 
