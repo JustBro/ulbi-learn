@@ -6,7 +6,9 @@ const buildLoaders = (tsConfigFilePath: string): webpack.RuleSetRule[] => {
   // чтобы контролироватьь и видеть порядок загрузки плагинов
   const tsLoader: webpack.RuleSetRule = {
     // test - это регулярное выражение, которое будет использоваться для определения файлов, которые будут обрабатываться
-    // в данном случае мы обрабатываем файлы с расширениями ts, tsx
+    // в данном случае мы обрабатываем файлы с расширениями ts, tsx, но ts-loader может обрабатывать и другие расширения, например js, jsx
+    // если бы мы не использовали TS, а просто JS, то мы бы использовали babel-loader, который будет использоваться для обработки файлов с расширениями js, jsx, ts, tsx, 
+    // а так же перегонял бы наш код в более старый стандарт, который будет понятен всем браузерам
     test: /\.tsx?$/,
     // use - это лоадер, который будет использоваться для обработки файлов
     use: {
@@ -26,7 +28,20 @@ const buildLoaders = (tsConfigFilePath: string): webpack.RuleSetRule[] => {
     exclude: /node_modules/,
   };
 
-  return [tsLoader];
+  const cssLoader: webpack.RuleSetRule = {
+    test: /\.s[ac]ss$/i,
+    // Порядок важен, так как style-loader добавляет стили в DOM, а css-loader и sass-loader обрабатывают CSS файлы
+    use: [
+      // style-loader - лоадер для добавления стилей в DOM
+      "style-loader", 
+      // css-loader - лоадер для обработки CSS файлов
+      "css-loader", 
+      // sass-loader - лоадер для обработки SASS файлов
+      "sass-loader"
+    ],
+  };
+
+  return [tsLoader, cssLoader];
 };
 
 export { buildLoaders };
